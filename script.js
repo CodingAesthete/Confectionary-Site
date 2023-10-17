@@ -85,7 +85,7 @@ let increment = (id) => {
 let decrement = (id) => {
   let selected = id;
   let result = basket.find(x => x.id == id);
-  if (result === undefined || result.count == 0) return;
+  if (result === undefined) return;
   result.count -= 1;
   update(selected);
 }
@@ -93,6 +93,7 @@ let decrement = (id) => {
 let update = (id) => {
   let result = basket.find(x => x.id == id);
   document.getElementById(id).innerHTML = result.count;
+  basket = basket.filter(x => x.count !== 0);
   localStorage.setItem('data', JSON.stringify(basket))
   calculate();
 }
@@ -100,7 +101,6 @@ let update = (id) => {
 let calculate = () => {
   totalCount = basket.map(x => x.count).reduce((a, b) => a + b, 0);
   document.querySelector('.cartAmount').innerHTML = totalCount;
-  console.log(basket);
 }
 
 calculate();
